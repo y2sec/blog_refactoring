@@ -1,6 +1,7 @@
 package xyz.y2sec.blog.category.model;
 
 import lombok.Getter;
+import lombok.ToString;
 import xyz.y2sec.blog.post.model.Post;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@ToString
 public class Category {
 
     @Id
