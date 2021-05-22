@@ -8,6 +8,7 @@ import xyz.y2sec.blog.category.model.Category;
 import xyz.y2sec.blog.category.repository.CategoryRepository;
 import xyz.y2sec.blog.category.service.CategoryService;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,8 +27,14 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Category> findById(long categoryId) {
-        return categoryRepository.findById(categoryId);
+    public Category findById(long categoryId) {
+        Optional<Category> findCategory = categoryRepository.findById(categoryId);
+
+        if (findCategory.isPresent()) {
+            return findCategory.get();
+        } else {
+            throw new EntityNotFoundException();
+        }
     }
 
     @Override
@@ -38,13 +45,23 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void modifyCategory(CategoryDto categoryDto, long categoryId) {
-        Category category = categoryRepository.getOne(categoryId);
-        // TODO = Update 구현하기
+        Optional<Category> findCategory = categoryRepository.findById(categoryId);
+
+        if (findCategory.isPresent()) {
+            findCategory.get().update(categoryDto);
+        } else {
+            throw new EntityNotFoundException();
+        }
     }
 
     @Override
     public void removeCategory(long categoryId) {
-        Category category = categoryRepository.getOne(categoryId);
-        categoryRepository.delete(category);
+        Optional<Category> findCategory = categoryRepository.findById(categoryId);
+
+        if (findCategory.isPresent()) {
+            categoryRepository.delete(findCategory.get());
+        } else {
+            throw new EntityNotFoundException();
+        }
     }
 }
