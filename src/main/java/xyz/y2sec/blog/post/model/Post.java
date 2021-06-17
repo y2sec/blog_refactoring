@@ -39,8 +39,8 @@ public class Post {
     private final List<Comment> comments = new ArrayList<>();
 
     public Post(PostDto postDto, Category category) {
-        this.title = postDto.toString();
-        this.content = postDto.toString();
+        this.title = postDto.getTitle();
+        this.content = postDto.getContent();
         this.views = 0;
 
         LocalDateTime currentDateTime = LocalDateTime.now();
@@ -51,8 +51,8 @@ public class Post {
     }
 
     public void update(PostDto postDto, Category category) {
-        this.title = postDto.toString();
-        this.content = postDto.toString();
+        this.title = postDto.getTitle();
+        this.content = postDto.getContent();
         this.modifyDate = LocalDateTime.now();
         this.category = category;
     }
