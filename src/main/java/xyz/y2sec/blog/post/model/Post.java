@@ -1,8 +1,10 @@
 package xyz.y2sec.blog.post.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import xyz.y2sec.blog.category.model.Category;
 import xyz.y2sec.blog.comment.model.Comment;
+import xyz.y2sec.blog.post.dto.PostDto;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,6 +13,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Post {
 
     @Id
@@ -29,10 +32,29 @@ public class Post {
     private LocalDateTime modifyDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "category_id")
     private Category category;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<Comment> comments = new ArrayList<>();
+    private final List<Comment> comments = new ArrayList<>();
+
+    public Post(PostDto postDto, Category category) {
+        this.title = postDto.getTitle();
+        this.content = postDto.getContent();
+        this.views = 0;
+
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        this.createDate = currentDateTime;
+        this.modifyDate = currentDateTime;
+
+        this.category = category;
+    }
+
+    public void update(PostDto postDto, Category category) {
+        this.title = postDto.getTitle();
+        this.content = postDto.getContent();
+        this.modifyDate = LocalDateTime.now();
+        this.category = category;
+    }
 
 }
