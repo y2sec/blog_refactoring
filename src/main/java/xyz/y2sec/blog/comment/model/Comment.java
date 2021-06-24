@@ -32,9 +32,9 @@ public class Comment {
     private Post post;
 
     public Comment(CommentDto commentDto, Post post) {
-        this.name = commentDto.toString();
-        this.content = commentDto.toString();
-        this.password = commentDto.toString();
+        this.name = commentDto.getName();
+        this.content = commentDto.getContent();
+        this.password = commentDto.getPassword();
 
         LocalDateTime currentDateTime = LocalDateTime.now();
         this.createDate = currentDateTime;
@@ -44,9 +44,9 @@ public class Comment {
     }
 
     public void update(CommentDto commentDto) {
-        this.name = commentDto.toString();
-        this.content = commentDto.toString();
-        this.password = commentDto.toString();
+        this.name = commentDto.getName();
+        this.content = commentDto.getContent();
+        this.password = commentDto.getPassword();
 
         this.modifyDate = LocalDateTime.now();
     }
