@@ -1,6 +1,8 @@
 package xyz.y2sec.blog.comment.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import xyz.y2sec.blog.comment.dto.CommentDto;
 import xyz.y2sec.blog.post.model.Post;
 
 import javax.persistence.*;
@@ -8,6 +10,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Comment {
 
     @Id
@@ -25,7 +28,27 @@ public class Comment {
     private LocalDateTime modifyDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "post_id")
     private Post post;
+
+    public Comment(CommentDto commentDto, Post post) {
+        this.name = commentDto.getName();
+        this.content = commentDto.getContent();
+        this.password = commentDto.getPassword();
+
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        this.createDate = currentDateTime;
+        this.modifyDate = currentDateTime;
+
+        this.post = post;
+    }
+
+    public void update(CommentDto commentDto) {
+        this.name = commentDto.getName();
+        this.content = commentDto.getContent();
+        this.password = commentDto.getPassword();
+
+        this.modifyDate = LocalDateTime.now();
+    }
 
 }
