@@ -30,6 +30,33 @@ class PostServiceTest {
     private EntityManager entityManager;
 
     @Test
+    @DisplayName("카테고리 ID로 조회")
+    void findByCategoryId() {
+        // given
+        Category category = new Category();
+        long categoryId = categoryService.addCategory(category);
+
+        PostDto postDto = new PostDto("제목", "내용", categoryId);
+
+        Post post1 = new Post(postDto, category);
+        Post post2 = new Post(postDto, category);
+        Post post3 = new Post(postDto ,category);
+
+        postService.addPost(post1);
+        postService.addPost(post2);
+        postService.addPost(post3);
+
+        // when
+        List<Post> categories1 = postService.findByCategoryId(categoryId);
+        List<Post> categories2 = postService.findByCategoryId(10);
+
+        // then
+        Assertions.assertEquals(categories1.size(), 3);
+        Assertions.assertEquals(categories2.size(), 0);
+
+    }
+
+    @Test
     @DisplayName("게시물 추가")
     void addPost() {
         // given
@@ -90,10 +117,7 @@ class PostServiceTest {
     @DisplayName("게시물 삭제")
     void deletePost() {
         // given
-        Category category = new Category();
-        PostDto postDto = new PostDto("제목", "내용", 1);
-
-        Post post = new Post(postDto, category);
+        Post post = new Post();
         long postId = postService.addPost(post);
 
         // when
