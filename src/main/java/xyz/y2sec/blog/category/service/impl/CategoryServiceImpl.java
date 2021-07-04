@@ -30,16 +30,16 @@ public class CategoryServiceImpl implements CategoryService {
     public Category findById(long categoryId) {
         Optional<Category> findCategory = categoryRepository.findById(categoryId);
 
-        if (findCategory.isPresent()) {
-            return findCategory.get();
-        } else {
+        if (findCategory.isEmpty()) {
             throw new EntityNotFoundException();
         }
+        return findCategory.get();
     }
 
     @Override
     public long addCategory(Category category) {
         Category saveCategory = categoryRepository.save(category);
+
         return saveCategory.getId();
     }
 
@@ -47,21 +47,19 @@ public class CategoryServiceImpl implements CategoryService {
     public void modifyCategory(CategoryDto categoryDto, long categoryId) {
         Optional<Category> findCategory = categoryRepository.findById(categoryId);
 
-        if (findCategory.isPresent()) {
-            findCategory.get().update(categoryDto);
-        } else {
+        if (findCategory.isEmpty()) {
             throw new EntityNotFoundException();
         }
+        findCategory.get().update(categoryDto);
     }
 
     @Override
     public void removeCategory(long categoryId) {
         Optional<Category> findCategory = categoryRepository.findById(categoryId);
 
-        if (findCategory.isPresent()) {
-            categoryRepository.delete(findCategory.get());
-        } else {
+        if (findCategory.isEmpty()) {
             throw new EntityNotFoundException();
         }
+        categoryRepository.delete(findCategory.get());
     }
 }
