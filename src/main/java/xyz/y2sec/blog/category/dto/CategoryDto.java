@@ -9,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 public class CategoryDto {
 
+    @NonNull
     private String name;
 
 }
