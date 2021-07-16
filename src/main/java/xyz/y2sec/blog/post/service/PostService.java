@@ -16,7 +16,7 @@ public interface PostService {
 
     long addPost(Post post);
 
-    void modifyPost(PostDto postDto, Category category, long postId);
+    long modifyPost(PostDto postDto, Category category);
 
     void removePost(long postId);
 

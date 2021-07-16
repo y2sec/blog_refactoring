@@ -48,13 +48,15 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void modifyPost(PostDto postDto, Category category, long postId) {
-        Optional<Post> findPost = postRepository.findById(postId);
+    public long modifyPost(PostDto postDto, Category category) {
+        Optional<Post> findPost = postRepository.findById(postDto.getId());
 
         if (findPost.isEmpty()) {
             throw new EntityNotFoundException();
         }
         findPost.get().update(postDto, category);
+
+        return findPost.get().getId();
     }
 
     @Override
