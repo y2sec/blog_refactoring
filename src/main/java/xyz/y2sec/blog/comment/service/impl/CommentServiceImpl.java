@@ -50,13 +50,15 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void modifyComment(CommentDto commentDto, long commentId) {
-        Optional<Comment> findComment = commentRepository.findById(commentId);
+    public long modifyComment(CommentDto commentDto) {
+        Optional<Comment> findComment = commentRepository.findById(commentDto.getId());
 
         if (findComment.isEmpty()) {
             throw new EntityNotFoundException();
         }
         findComment.get().update(commentDto);
+
+        return findComment.get().getId();
     }
 
     @Override
