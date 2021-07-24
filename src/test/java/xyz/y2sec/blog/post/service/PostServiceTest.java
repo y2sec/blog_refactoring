@@ -101,8 +101,8 @@ class PostServiceTest {
         long postId = postService.addPost(post);
 
         // when
-        PostDto afterPostDto = new PostDto("이후제목", "이후내용", 1);
-        postService.modifyPost(afterPostDto, category, postId);
+        PostDto afterPostDto = new PostDto(postId,"이후제목", "이후내용", 1);
+        postService.modifyPost(afterPostDto, category);
         entityManager.flush();
         entityManager.clear();
 
